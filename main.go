@@ -2,24 +2,17 @@ package main
 
 import (
 	"fmt"
-	"io"
-	"net/http"
-	"os"
+	"mygo/sorting"
 )
 
 func main() {
-	for _, url := range os.Args[1:] {
-		resp, err := http.Get(url)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "fetch: %v\n", err)
-			os.Exit(1)
+	nums := []int{5, 2, 4, 6, 1, 3}
+	sorting.HeapSort(nums)
+	for index, num := range nums {
+		fmt.Print(num)
+		if index != len(nums)-1 {
+			fmt.Print(" ")
 		}
-		b, err := io.ReadAll(resp.Body)
-		resp.Body.Close()
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "fetch: reading %s: %v\n", url, err)
-			os.Exit(1)
-		}
-		fmt.Printf("%s", b)
 	}
+	fmt.Println()
 }
