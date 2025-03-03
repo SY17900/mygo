@@ -1,4 +1,4 @@
-package stack
+package stackandqueue
 
 func LargestRectangleArea(heights []int) int {
 	stack := []int{0}

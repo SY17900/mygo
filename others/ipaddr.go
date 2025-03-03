@@ -1,4 +1,3 @@
-// 是否是有效的ipv4地址
 package others
 
 import (

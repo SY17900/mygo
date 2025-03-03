@@ -1,10 +1,11 @@
-package stack
+package stackandqueue
 
 import (
 	"container/heap"
 	"fmt"
 )
 
+// 二维接雨水
 func TrapWater2D(height []int) int {
 	stack := []int{}
 	ans := 0

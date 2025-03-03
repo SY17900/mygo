@@ -1,4 +1,4 @@
-package stack
+package stackandqueue
 
 func NextBigger0(nums1 []int, nums2 []int) []int {
 	rec := make(map[int]int)
