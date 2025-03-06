@@ -17,18 +17,16 @@ package course
 // 	"programming languages": {"data structures", "computer organization"},
 // }
 
-func StudyPath(mp map[string][]string) []string {
-	var order []string
-	seen := map[string]bool{}
-	var dfs func(items []string)
+func GetOrder(mp map[string][]string) (res []string) {
+	visited := map[string]struct{}{}
+	var dfs func([]string)
 
-	dfs = func(items []string) {
-		for _, item := range items {
-			// 找到该课程的所有依赖，然后再填入该课程
-			if !seen[item] {
-				seen[item] = true
-				dfs(mp[item])
-				order = append(order, item)
+	dfs = func(courses []string) {
+		for _, course := range courses {
+			if _, ok := visited[course]; !ok {
+				visited[course] = struct{}{}
+				dfs(mp[course])
+				res = append(res, course)
 			}
 		}
 	}
@@ -37,8 +35,7 @@ func StudyPath(mp map[string][]string) []string {
 	for course := range mp {
 		courses = append(courses, course)
 	}
-
 	dfs(courses)
 
-	return order
+	return
 }

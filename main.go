@@ -1,18 +1,16 @@
 package main
 
-import (
-	"fmt"
-	"mygo/sorting"
-)
+import "fmt"
 
 func main() {
-	nums := []int{5, 2, 4, 6, 1, 3}
-	sorting.HeapSort(nums)
-	for index, num := range nums {
-		fmt.Print(num)
-		if index != len(nums)-1 {
-			fmt.Print(" ")
-		}
+	slice := []byte{'n', 'a', 'n', 'o'}
+	add := func() {
+		slice = append(slice, 'd')
 	}
-	fmt.Println()
+	add()
+	fmt.Println(slice)
+	slice = slice[:len(slice)-1]
+	fmt.Println(slice)
+	add()
+	fmt.Println(slice)
 }
