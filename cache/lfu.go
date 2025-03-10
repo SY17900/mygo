@@ -44,6 +44,7 @@ func (c *LFUCache) getNode(key int) *lfuCacheNode {
 	}
 	node.freq++
 	c.pushFront(node)
+
 	return node
 }
 
@@ -51,6 +52,7 @@ func (c *LFUCache) Get(key int) (int, bool) {
 	if node := c.getNode(key); node != nil {
 		return node.value, true
 	}
+
 	return -1, false
 }
 
@@ -59,6 +61,7 @@ func (c *LFUCache) Put(key, value int) {
 		node.value = value
 		return
 	}
+
 	if len(c.key2Node) == c.capacity {
 		leftList := c.freq2List[c.minFreq]
 		temp := leftList.Remove(leftList.Back()).(*lfuCacheNode)
