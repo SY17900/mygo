@@ -103,3 +103,53 @@ func NQueens(n int) (ans [][]string) {
 	dfs(0)
 	return
 }
+
+func Sudoku(board [][]byte) {
+	var dfs func([][]byte) bool
+	dfs = func(board [][]byte) bool {
+		for i := range 9 {
+			for j := range 9 {
+				if board[i][j] != '.' {
+					continue
+				}
+				for k := '1'; k <= '9'; k++ {
+					if ifValid(i, j, byte(k), board) {
+						board[i][j] = byte(k)
+						if dfs(board) {
+							return true
+						}
+						board[i][j] = '.'
+					}
+				}
+				return false
+			}
+		}
+		return true
+	}
+
+	dfs(board)
+}
+
+func ifValid(row, col int, k byte, board [][]byte) bool {
+	for i := range 9 {
+		if board[row][i] == k {
+			return false
+		}
+	}
+	for i := range 9 {
+		if board[i][col] == k {
+			return false
+		}
+	}
+	startrow := (row / 3) * 3
+	startcol := (col / 3) * 3
+	for i := startrow; i < startrow+3; i++ {
+		for j := startcol; j < startcol+3; j++ {
+			if board[i][j] == k {
+				return false
+			}
+		}
+	}
+
+	return true
+}

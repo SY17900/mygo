@@ -1,81 +1,48 @@
 package cache
 
+import "container/list"
+
 type lruCacheNode struct {
 	key, value int
-	pre, next  *lruCacheNode
-}
-
-func NewCacheNode(key, value int) *lruCacheNode {
-	return &lruCacheNode{key: key, value: value, pre: nil, next: nil}
 }
 
 type LRUCache struct {
-	size, capacity int
-	mp             map[int]*lruCacheNode
-	head           *lruCacheNode
+	capacity int
+	mp       map[int]*list.Element
+	lst      *list.List
 }
 
 func NewLRUCache(capacity int) LRUCache {
-	cache := LRUCache{
-		0,
-		capacity,
-		map[int]*lruCacheNode{},
-		NewCacheNode(0, 0),
+	return LRUCache{
+		capacity: capacity,
+		mp:       make(map[int]*list.Element),
+		lst:      list.New(),
 	}
-	cache.head.next = cache.head
-	cache.head.pre = cache.head
-
-	return cache
 }
 
-func (cache *LRUCache) Get(key int) int {
-	if _, ok := cache.mp[key]; !ok {
-		return -1
+func (c *LRUCache) Get(key int) int {
+	if e, ok := c.mp[key]; ok {
+		c.lst.MoveToFront(e)
+		node := e.Value.(*lruCacheNode)
+		return node.value
 	}
-	node := cache.mp[key]
-	cache.updateOld(node)
-	return node.value
+	return -1
 }
 
-func (cache *LRUCache) Put(key, value int) {
-	if _, ok := cache.mp[key]; !ok {
-		node := NewCacheNode(key, value)
-		for cache.size >= cache.capacity {
-			cache.removeLast()
-		}
-		cache.mp[key] = node
-		cache.insertNew(node)
-	} else {
-		node := cache.mp[key]
+func (c *LRUCache) Put(key, value int) {
+	if e, ok := c.mp[key]; ok {
+		node := e.Value.(*lruCacheNode)
 		node.value = value
-		cache.updateOld(node)
+		c.lst.MoveToFront(e)
+	} else {
+		if c.lst.Len() == c.capacity {
+			back := c.lst.Back()
+			if back != nil {
+				temp := c.lst.Remove(back).(*lruCacheNode)
+				delete(c.mp, temp.key)
+			}
+		}
+		e := c.lst.PushFront(&lruCacheNode{key: key, value: value})
+		c.mp[key] = e
 	}
-}
-
-func (cache *LRUCache) removeLast() {
-	delete(cache.mp, cache.head.pre.key)
-	cache.remove(cache.head.pre)
-	cache.size--
-}
-
-func (cache *LRUCache) insertNew(node *lruCacheNode) {
-	cache.insertHead(node)
-	cache.size++
-}
-
-func (cache *LRUCache) updateOld(node *lruCacheNode) {
-	cache.remove(node)
-	cache.insertHead(node)
-}
-
-func (cache *LRUCache) remove(node *lruCacheNode) {
-	node.pre.next = node.next
-	node.next.pre = node.pre
-}
-
-func (cache *LRUCache) insertHead(node *lruCacheNode) {
-	node.next = cache.head.next
-	node.next.pre = node
-	cache.head.next = node
-	node.pre = cache.head
 }
