@@ -5,7 +5,7 @@ import (
 	"sort"
 )
 
-func Exam1() {
+func XIAOMI_Exam1() {
 	var n, k, ans int
 	fmt.Scan(&n, &k)
 	rec := make([]int, n)
@@ -34,7 +34,7 @@ func Exam1() {
 	}
 }
 
-func Exam2() {
+func XIAOMI_Exam2() {
 	var x, y, n int
 	fmt.Scan(&x, &y, &n)
 	type car struct {
