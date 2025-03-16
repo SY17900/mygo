@@ -1,9 +1,8 @@
 package binarytree
 
 type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
+	Val         int
+	Left, Right *TreeNode
 }
 
 func (t *TreeNode) PreOrder() (res []int) {

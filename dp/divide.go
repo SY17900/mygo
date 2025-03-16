@@ -11,3 +11,17 @@ func BreakInteger(num int) int {
 
 	return dp[num]
 }
+
+func NumOfBST(n int) int {
+	dp := make([]int, n+1)
+	dp[0], dp[1] = 1, 1
+	for i := 2; i <= n; i++ {
+		temp := 0
+		for j := 1; j <= i; j++ {
+			temp += dp[j-1] * dp[i-j]
+		}
+		dp[i] = temp
+	}
+
+	return dp[n]
+}
