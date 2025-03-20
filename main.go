@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	exam.AddNum()
+	exam.XUNLEI_EXAM2()
 }
