@@ -2,10 +2,9 @@ package stackandqueue
 
 import (
 	"container/heap"
-	"fmt"
 )
 
-// 二维接雨水
+// 2D
 func TrapWater2D(height []int) int {
 	stack := []int{}
 	ans := 0
@@ -17,7 +16,6 @@ func TrapWater2D(height []int) int {
 			if len(stack) > 0 {
 				h := min(height[stack[len(stack)-1]], n) - button
 				w := position - stack[len(stack)-1] - 1
-				fmt.Println(h, w, h*w)
 				ans += h * w
 			}
 		}
@@ -31,7 +29,7 @@ func TrapWater2D(height []int) int {
 	return ans
 }
 
-// 三维接雨水
+// 3D
 type cell struct {
 	height, x, y int
 }

@@ -1,6 +1,6 @@
 package sorting
 
-func partition(nums []int, left int, right int) int {
+func partition(nums []int, left, right int) int {
 	pivot := nums[left]
 	for left < right {
 		for left < right && nums[right] >= pivot {
